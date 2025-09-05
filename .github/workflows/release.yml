@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  push: # Only run on any branch pushes for testing
+  pull_request:
+    types:
+      - labeled  # Run when PRs are labeled
+
+permissions:
+  contents: read
+
+jobs:
+  verify-releaser:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden the runner (Audit all outbound calls)
+        uses: step-security/harden-runner@6c439dc8bdf85cadbbce9ed30d1c7b959517bc49 # v2.12.2
+        with:
+          egress-policy: audit
+
+      - name: Verify Trusted Tag Releaser
+        uses: actionutils/trusted-tag-verifier@v0
+        with:
+          repository: 'actionutils/trusted-go-releaser'
+          tag: 'v0'
+
+  # Post version bump information comment on PR when labeled
+  release-preview-comment:
+    if: github.event.action == 'labeled'
+    permissions:
+      pull-requests: write
+    uses: actionutils/trusted-go-releaser/.github/workflows/release-preview-comment.yml@main
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
+
+  # First check if a release is needed
+  release-check:
+    if: github.event.action != 'labeled'
+    permissions:
+      contents: write # Required for GitHub's generate-release-note API (notes are only displayed in job summary, not written to any file)
+      pull-requests: read
+    uses: actionutils/trusted-go-releaser/.github/workflows/release-check.yml@main
+
+  # Use the reusable trusted tag workflow for releases if approved
+  release:
+    needs: [release-check]
+    if: github.event.action != 'labeled' && needs.release-check.outputs.skip != 'true'
+    concurrency:
+      group: "release"
+      cancel-in-progress: false
+    permissions:
+      id-token: write    # Required for SLSA provenance
+      contents: write    # Required for release and tag creation
+      pull-requests: write # Required for bumpr commenting
+      actions: read      # Required for SLSA generator
+      attestations: write # Required for build provenance attestation
+    uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@main
+    secrets:
+      github-token: ${{ secrets.GITHUB_TOKEN }}
