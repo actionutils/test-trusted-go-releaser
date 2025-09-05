@@ -33,7 +33,7 @@ jobs:
     if: github.event.action == 'labeled'
     permissions:
       pull-requests: write
-    uses: actionutils/trusted-go-releaser/.github/workflows/release-preview-comment.yml@9613294d384ca619d36a3e66dc4db06c58eb31de
+    uses: actionutils/trusted-go-releaser/.github/workflows/release-preview-comment.yml@main
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -43,7 +43,7 @@ jobs:
     permissions:
       contents: write # Required for GitHub's generate-release-note API (notes are only displayed in job summary, not written to any file)
       pull-requests: read
-    uses: actionutils/trusted-go-releaser/.github/workflows/release-check.yml@9613294d384ca619d36a3e66dc4db06c58eb31de
+    uses: actionutils/trusted-go-releaser/.github/workflows/release-check.yml@main
 
   # Environment protection job
   release-approval:
@@ -76,6 +76,6 @@ jobs:
       pull-requests: write # Required for bumpr commenting
       actions: read      # Required for SLSA generator
       attestations: write # Required for build provenance attestation
-    uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@9613294d384ca619d36a3e66dc4db06c58eb31de
+    uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@main
     secrets:
       github-token: ${{ secrets.GITHUB_TOKEN }}
