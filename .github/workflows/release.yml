@@ -1,7 +1,9 @@
 name: Release
 
 on:
-  push: # Only run on any branch pushes for testing
+  push:
+    branches:
+      - 'release-test*'  # Only run on branches with release-test prefix
   pull_request:
     types:
       - labeled  # Run when PRs are labeled
