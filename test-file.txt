@@ -1,0 +1,1 @@
+Test commit from trusted-go-releaser PR #36
