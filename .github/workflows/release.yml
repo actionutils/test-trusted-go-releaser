@@ -22,8 +22,7 @@ jobs:
       - name: Verify Trusted Tag Releaser
         uses: actionutils/trusted-tag-verifier@v0
         with:
-          repository: 'actionutils/trusted-go-releaser'
-          tag: 'v0'
+          verify: 'actionutils/trusted-go-releaser@v0'
 
   # First check if a release is needed
   release-check:
