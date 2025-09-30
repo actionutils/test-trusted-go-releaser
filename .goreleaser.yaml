@@ -34,3 +34,17 @@ signs:
       - "--yes" # needed on cosign 2.0.0+
     artifacts: all
     output: true
+
+homebrew_casks:
+  - repository:
+      owner: actionutils
+      name: homebrew-test-trusted-go-releaser
+      token: "{{ .Env.HOMEBREW_GITHUB_TOKEN }}"
+    homepage: https://github.com/actionutils/test-trusted-go-releaser
+    license: MIT
+    hooks:
+      post:
+        install: |
+          if OS.mac?
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/test-trusted-go-releaser"]
+          end
