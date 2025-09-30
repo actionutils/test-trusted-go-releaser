@@ -39,5 +39,3 @@ jobs:
     uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@main
     with:
       environment: release
-    secrets:
-      github-token: ${{ secrets.GITHUB_TOKEN }}
