@@ -27,9 +27,7 @@ jobs:
   # Use the reusable trusted tag workflow for releases if approved
   release:
     if: github.event.action != 'labeled' && needs.release-check.outputs.skip != 'true'
-    concurrency:
-      group: "release"
-      cancel-in-progress: false
+    environment: release-token
     permissions:
       id-token: write    # Required for SLSA provenance
       contents: write    # Required for release and tag creation
@@ -39,3 +37,8 @@ jobs:
     uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@main
     with:
       environment: release
+    secrets:
+      goreleaser-env-json: |
+        {
+          "HOMEBREW_GITHUB_TOKEN": "${{ secrets.HOMEBREW_GITHUB_TOKEN }}"
+        }
