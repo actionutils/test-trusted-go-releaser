@@ -36,7 +36,7 @@ jobs:
       pull-requests: write # Required for bumpr commenting
       actions: read      # Required for SLSA generator
       attestations: write # Required for build provenance attestation
-    uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@main
+    uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@b7dee77ea29e40ccef5b9e8eaff684a1a0fdbc8f
     with:
       environment: release
     secrets:
