@@ -27,7 +27,6 @@ jobs:
   # Use the reusable trusted tag workflow for releases if approved
   release:
     if: github.event.action != 'labeled' && needs.release-check.outputs.skip != 'true'
-    environment: release-token
     permissions:
       id-token: write    # Required for SLSA provenance
       contents: write    # Required for release and tag creation
