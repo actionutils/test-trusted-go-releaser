@@ -2,13 +2,28 @@
 # vim: set ts=2 sw=2 tw=0 fo=cnqoj
 version: 2
 builds:
-  - env:
+  - id: go
+    env:
       - CGO_ENABLED=0
     goos:
       - linux
       - darwin
     goarch:
       - arm64
+  - id: bun
+    builder: bun
+    binary: test-trusted-go-releaser-bun
+    targets:
+      - linux-arm64
+      - darwin-arm64
+    flags:
+      - --compile
+      - --minify
+      - --bytecode
+    main: .
+
+archives:
+  - allow_different_binary_count: true
 
 # create a source tarball
 # https://goreleaser.com/customization/source/

@@ -36,6 +36,8 @@ jobs:
     uses: actionutils/trusted-go-releaser/.github/workflows/trusted-release-workflow.yml@main
     with:
       environment: release
+      setup-go: true
+      setup-bun: true
     secrets:
       goreleaser-env-json: |
         {
