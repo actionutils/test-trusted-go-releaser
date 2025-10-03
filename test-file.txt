@@ -1,2 +1,1 @@
 Test commit from trusted-go-releaser PR #68
-Test commit from trusted-go-releaser PR #72
