@@ -38,6 +38,7 @@ jobs:
       environment: release
       setup-go: true
       setup-bun: true
+      setup-zig: true
     secrets:
       goreleaser-env-json: |
         {

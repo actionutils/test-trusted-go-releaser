@@ -21,6 +21,12 @@ builds:
       - --minify
       - --bytecode
     main: .
+  - id: zig
+    builder: zig
+    binary: test_trusted_go_releaser
+    targets:
+      - aarch64-macos
+      - x86_64-linux-gnu
 
 archives:
   - allow_different_binary_count: true
